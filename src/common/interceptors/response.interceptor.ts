@@ -18,14 +18,14 @@ export class ResponseInterceptor<T>
         const response = context.switchToHttp().getResponse();
 
         return next.handle().pipe(
-            map((data) => ({
+            map((result: any) => ({
                 success: true,
 
                 statusCode: response.statusCode,
 
-                message: 'Request successful',
+                message: result?.message ?? 'Request successful',
 
-                data,
+                data: result?.data ?? result,
             })),
         );
     }
