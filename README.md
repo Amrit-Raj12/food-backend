@@ -292,6 +292,12 @@ chore:
 - [x] Error Response Standardized
 - [x] Validation Errors Tested
 - [x] 404 Errors Tested
+- [x] Swagger Installed
+- [x] Swagger Configuration Completed
+- [x] API Documentation Available at `/api/docs`
+- [x] DTOs Documented with `@ApiProperty`
+- [x] Controllers Annotated with Swagger Decorators
+- [x] Swagger UI Tested Successfully
 - [x] Documentation Updated
 - [ ] Authentication
 - [ ] Products
