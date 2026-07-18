@@ -11,9 +11,28 @@ import { loggerConfig } from './common/logger/logger.config';
 
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
+import compression from 'compression';
+
+import helmet from 'helmet';
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: WinstonModule.createLogger(loggerConfig),
+  });
+
+  // Security Middleware
+  app.use(helmet());
+  app.use(compression());
+
+  // CORS Configuration
+  app.enableCors({
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:8081',
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
   // Global API Prefix

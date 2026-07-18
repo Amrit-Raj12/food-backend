@@ -298,7 +298,14 @@ chore:
 - [x] DTOs Documented with `@ApiProperty`
 - [x] Controllers Annotated with Swagger Decorators
 - [x] Swagger UI Tested Successfully
-- [x] Documentation Updated
+- [x] Helmet Configured
+- [x] Compression Enabled
+- [x] CORS Configured
+- [x] Throttler Configured
+- [x] Global Throttler Guard Registered
+- [x] Rate Limiting Verified
+- [x] 429 (Too Many Requests) Handling Verified
+- [x] Exception Filter Handling 429 Responses
 - [ ] Authentication
 - [ ] Products
 - [ ] Categories
