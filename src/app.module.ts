@@ -11,10 +11,25 @@ import { PaymentsModule } from './modules/payments/payments.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { HealthModule } from './modules/health/health.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard } from '@nestjs/throttler';
 
 @Module({
-  imports: [AuthModule, UsersModule, CategoriesModule, ProductsModule, CartModule, OrdersModule, PaymentsModule, NotificationsModule, HealthModule, PrismaModule],
+  imports: [
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          ttl: 60000,
+          limit: 100,
+        },
+      ],
+    }),
+    AuthModule, UsersModule, CategoriesModule, ProductsModule, CartModule, OrdersModule, PaymentsModule, NotificationsModule, HealthModule, PrismaModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, {
+    provide: APP_GUARD,
+    useClass: ThrottlerGuard,
+  }],
 })
-export class AppModule {}
+export class AppModule { }
