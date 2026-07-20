@@ -2,14 +2,10 @@ import {
     Body,
     Controller,
     Get,
+    Logger,
     Post,
     Query,
 } from '@nestjs/common';
-
-import { CreateUserDto } from './dto/register.dto';
-import { PaginationDto } from '@common/dto/pagination.dto';
-import { ApiResponseUtil } from '@/common/utils/api-response.util';
-import { Logger } from '@nestjs/common';
 
 import {
     ApiOperation,
@@ -17,31 +13,53 @@ import {
     ApiTags,
 } from '@nestjs/swagger';
 
+import { PaginationDto } from '@common/dto/pagination.dto';
+import { RegisterDto } from './dto/register.dto';
+import { AuthService } from './auth.service';
+
+import { ApiResponseUtil } from '@/common/utils/api-response.util';
+
+import { VerifyOtpDto } from './dto/verify-otp.dto';
+
 @ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
 
     private readonly logger = new Logger(AuthController.name);
 
+    constructor(private readonly authService: AuthService) { }
+
     @Post('test')
+    @Post('register')
     @ApiOperation({
-        summary: 'Validate user registration payload',
+        summary: 'Register a new user',
     })
     @ApiResponse({
         status: 201,
-        description: 'Validation successful',
+        description: 'User registered successfully',
     })
     @ApiResponse({
         status: 400,
         description: 'Validation failed',
     })
-    test(@Body() body: CreateUserDto) {
-        this.logger.log('Validation endpoint called');
-        return ApiResponseUtil.success(
-            'Validation Passed',
-            body,
-        );
+    @ApiResponse({
+        status: 409,
+        description: 'User already exists',
+    })
+
+    async register(@Body() registerDto: RegisterDto) {
+        this.logger.log(`Registration attempt for email: ${registerDto.email}`);
+
+        return this.authService.register(registerDto);
     }
+
+    // test(@Body() body: CreateUserDto) {
+    //     this.logger.log('Validation endpoint called');
+    //     return ApiResponseUtil.success(
+    //         'Validation Passed',
+    //         body,
+    //     );
+    // }
 
     @ApiOperation({
         summary: 'Pagination DTO demo',
@@ -57,5 +75,14 @@ export class AuthController {
                 limitType: typeof query.limit,
             },
         );
+    }
+
+
+    @Post('verify')
+    @ApiOperation({
+        summary: 'Verify Email or Phone OTP',
+    })
+    verifyOtp(@Body() verifyOtpDto: VerifyOtpDto) {
+        return this.authService.verifyOtp(verifyOtpDto);
     }
 }

@@ -306,6 +306,19 @@ chore:
 - [x] Rate Limiting Verified
 - [x] 429 (Too Many Requests) Handling Verified
 - [x] Exception Filter Handling 429 Responses
+- [x] User Registration Implemented
+- [x] Email & Phone Validation
+- [x] Duplicate Email Check
+- [x] Duplicate Phone Check
+- [x] Password Hashing with `bcrypt`
+- [x] User Creation
+- [x] 6-Digit OTP Generation
+- [x] OTP Stored in Database
+- [x] OTP Verification Endpoint
+- [x] OTP Expiry Validation
+- [x] Email/Phone Verification
+- [x] OTP Reuse Prevention
+- [x] Standardized Success Responses
 - [ ] Authentication
 - [ ] Products
 - [ ] Categories

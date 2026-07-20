@@ -17,14 +17,47 @@ enum UserRole {
   ADMIN
 }
 
+enum VerificationType {
+  EMAIL
+  PHONE
+}
+
 model User {
-  id           String    @id @default(uuid())
-  name         String
-  email        String    @unique
-  phone        String?   @unique
-  password     String
-  role         UserRole  @default(CUSTOMER)
-  isActive     Boolean   @default(true)
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id              String    @id @default(uuid())
+
+  name            String
+
+  email           String?   @unique
+  phone           String?   @unique
+
+  password        String
+
+  role            UserRole  @default(CUSTOMER)
+
+  isActive        Boolean   @default(true)
+
+  emailVerified   Boolean   @default(false)
+  phoneVerified   Boolean   @default(false)
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  otpCodes        OTP[]
+}
+
+model OTP {
+  id          String            @id @default(uuid())
+
+  userId      String
+  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type        VerificationType
+
+  code        String
+
+  expiresAt   DateTime
+
+  verifiedAt  DateTime?
+
+  createdAt   DateTime          @default(now())
 }
